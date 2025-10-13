@@ -19,6 +19,8 @@ class EmailCategorization(BaseModel):
         "other"
     ]
     reason: str
+    has_invoice: bool
+    invoice_numbers: List[str]
 
 
 def categorize_email(
@@ -46,15 +48,35 @@ def categorize_email(
     Analyze the sender, subject, body content, and any attachments to make your determination.
     Provide a clear reason for your categorization.
 
+    **Invoice Detection:**
+    You must also identify if the email contains any invoice numbers. Look for invoice numbers in:
+    - The email subject line
+    - The email body content
+    - Attachment filenames (e.g., "invoice_12345.pdf", "INV-67890.pdf")
+    
+    Set `has_invoice` to True if you find any invoice numbers, False otherwise.
+    Populate `invoice_numbers` with a list of all invoice numbers you find (as strings).
+    If no invoice numbers are found, use an empty list [] for `invoice_numbers`.
+    
+    Invoice numbers typically appear as:
+    - Numeric sequences (e.g., "12345", "053160")
+    - Alphanumeric codes (e.g., "INV-12345", "C629958")
+    - References like "Invoice #12345" or "Inv 12345"
+
     """
 
-    user_text = f"""Please categorize this email:
+    user_text = f"""
+    
+    Please categorize this email:
 
-**From:** {sender_name} <{sender_email}>
-**Subject:** {subject}
+    **From:** {sender_name} <{sender_email}>
+    **Subject:** {subject}
 
-**Body:**
-{body[:2000]}"""
+    **Body:**
+
+    {body}
+    
+    """
 
     if len(body) > 2000:
         user_text += "\n\n[Body truncated for length]"

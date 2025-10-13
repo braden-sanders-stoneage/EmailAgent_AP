@@ -74,101 +74,7 @@ def epicor_api_request(endpoint, method, company='SAINC', payload=None, params=N
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
     return response
-
-# DMT (Data Migration Tool) Functions
-def generate_group_name():
-    timestamp = datetime.now().strftime("%d%H%M")  # day + hour + minute = 6 digits
-    return f"AI{timestamp}"  # AI + 6 digits = 8 chars total
-
-def execute_dmt(template_name, data_records, company=None):
-    username = os.getenv('EPICOR_USERNAME')
-    password = os.getenv('EPICOR_PASSWORD')
-    instance = os.getenv('EPICOR_INSTANCE')
     
-    if not company:
-        company = 'SAINC'  # Default company
-    
-    # Create temporary CSV file
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, newline='') as f:
-        if data_records:
-            fieldnames = data_records[0].keys()
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(data_records)
-            temp_file = f.name
-    
-    # DMT command line call
-    dmt_path = "C:\\Epicor\\ERP11.2.400.20Client\\Client\\DMT.exe"
-    
-    dmt_command = [
-        dmt_path,
-        "-NoUI",
-        "-NoCompleteLog", 
-        "-NoErrorInput",
-        "-DisableUpdateService",
-        "-User", username,
-        "-Pass", password,
-        "-ConfigValue", instance,
-        "-Add",
-        "-Import", template_name,
-        "-Source", temp_file
-    ]
-    
-    try:
-        
-        result = subprocess.run(dmt_command, capture_output=True, text=True, timeout=None)
-        
-        print('DEBUG: DMT result:', result)
-
-        # Clean up temp file
-        os.unlink(temp_file)
-        
-        # Filter out log4net errors but keep other actual errors
-        filtered_errors = ""
-        if result.stderr:
-            lines = result.stderr.split('\n')
-            filtered_lines = [line for line in lines if not (
-                'log4net:ERROR' in line or 
-                'appender named [console]' in line or
-                'XmlHierarchyConfigurator' in line
-            )]
-            filtered_errors = '\n'.join(filtered_lines).strip()
-        
-        # DMT succeeds if return code is 0, regardless of log4net warnings in stderr
-        is_success = result.returncode == 0
-        
-        return {
-            'success': is_success,
-            'return_code': result.returncode,
-            'output': result.stdout,
-            'errors': filtered_errors
-        }
-        
-    except subprocess.TimeoutExpired:
-        os.unlink(temp_file)
-        return {
-            'success': False,
-            'return_code': -1,
-            'output': '',
-            'errors': 'DMT command timed out'
-        }
-    except FileNotFoundError:
-        os.unlink(temp_file)
-        return {
-            'success': False,
-            'return_code': -1,
-            'output': '',
-            'errors': f'DMT executable not found at: {dmt_path}'
-        }
-    except Exception as e:
-        os.unlink(temp_file)
-        return {
-            'success': False,
-            'return_code': -1,
-            'output': '',
-            'errors': f'Error executing DMT: {str(e)}'
-        }
-
 def format_date_for_epicor(date_obj=None):
     if date_obj is None:
         date_obj = datetime.now()
@@ -186,24 +92,6 @@ def format_date_for_epicor(date_obj=None):
             date_obj = datetime.now()
     
     return date_obj.strftime("%Y-%m-%d")
-
-def get_vendor_data(vendor_id, company='SAINC'):
-    endpoint = 'Erp.BO.VendorSvc/Vendors'
-    
-    params = {
-        '$filter': f"Company eq '{company}' and VendorID eq '{vendor_id}'",
-        '$select': 'VendorNum, TermsCode'
-    }
-    
-    response = epicor_api_request(endpoint, 'GET', company, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        vendor_num = data['value'][0]['VendorNum'] 
-        terms_code = data['value'][0]['TermsCode']
-        return vendor_num, terms_code
-
-    return None
 
 if __name__ == "__main__":
     # Test the connection with a common endpoint

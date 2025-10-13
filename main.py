@@ -7,6 +7,8 @@ from core.integrations.outlook.client import authenticate_graph_api, get_emails,
 from core.integrations.outlook.attachments import process_attachments
 from core.ai.classifier import categorize_email
 from core.utils.file_system import sort_email
+from core.integrations.epicor.invoices import get_invoice_from_epicor
+import json
 
 
 def main():
@@ -94,6 +96,11 @@ def main():
             attachments=attachment_list
         )
         
+        if categorization.has_invoice:
+            print(f"\n📄 Invoices Detected: {len(categorization.invoice_numbers)}")
+            for inv_num in categorization.invoice_numbers:
+                print(f"   - {inv_num}")
+        
         print(f"\n[DEBUG] Passing to sort_email - processed_attachments type: {type(processed_attachments)}")
         if processed_attachments:
             print(f"[DEBUG] processed_attachments keys: {processed_attachments.keys()}")
@@ -107,6 +114,33 @@ def main():
         )
         
         print(f"\n💾 Email saved to: {folder_path}")
+        
+        if categorization.has_invoice and categorization.invoice_numbers:
+            print(f"\n🔍 Verifying invoices in Epicor...")
+            
+            invoice_verification_data = {
+                "invoices": []
+            }
+            
+            for invoice_num in categorization.invoice_numbers:
+                result = get_invoice_from_epicor(invoice_num)
+                
+                invoice_entry = {
+                    "invoice_number": invoice_num,
+                    "found_in_epicor": result["found"]
+                }
+                
+                if result["epicor_url"]:
+                    invoice_entry["epicor_url"] = result["epicor_url"]
+                    print(f"  📎 Link: {result['epicor_url']}")
+                
+                invoice_verification_data["invoices"].append(invoice_entry)
+            
+            verification_file_path = os.path.join(folder_path, "invoice_verification.json")
+            with open(verification_file_path, 'w', encoding='utf-8') as f:
+                json.dump(invoice_verification_data, f, indent=2)
+            
+            print(f"✓ Invoice verification saved to: {verification_file_path}")
         
         print("-"*80)
 
