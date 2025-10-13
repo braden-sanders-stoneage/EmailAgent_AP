@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AP Invoice Tracker</title>
+    
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <link rel="stylesheet" href="/static/css/taskpane.css">
+</head>
+<body>
+    <div class="container">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading email data...</p>
+        </div>
+        
+        <div id="content" style="display: none;">
+            <div class="header">
+                <h2>Email Classification</h2>
+            </div>
+            
+            <div class="category-section">
+                <div id="categoryBadge" class="badge"></div>
+                <p id="categoryReason" class="reason"></p>
+            </div>
+            
+            <div id="invoiceSection" style="display: none;">
+                <h3>Invoices Detected</h3>
+                <div id="invoiceList"></div>
+            </div>
+            
+            <div id="noInvoice" style="display: none;">
+                <p class="no-data">No invoices detected in this email.</p>
+            </div>
+        </div>
+        
+        <div id="error" style="display: none;">
+            <div class="error-message">
+                <p id="errorText"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/taskpane.js"></script>
+</body>
+</html>
+

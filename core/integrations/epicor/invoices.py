@@ -53,9 +53,19 @@ def get_invoice_from_epicor(invoice_number, company='SAINC'):
                 if vendor_num:
                     epicor_url = build_epicor_invoice_url(vendor_num, invoice_number)
                 
+                invoice_details = {
+                    "VendorName": invoice_data.get('Vendor_Name'),
+                    "VendorEmailAddress": invoice_data.get('Vendor_EMailAddress'),
+                    "DocInvoiceAmt": invoice_data.get('APInvHed_DocInvoiceAmt'),
+                    "DocInvoiceBal": invoice_data.get('APInvHed_DocInvoiceBal'),
+                    "PaymentStatus": invoice_data.get('Calculated_PaymentStatus'),
+                    "OpenPayable": invoice_data.get('APInvHed_OpenPayable')
+                }
+                
                 return {
                     "found": True,
                     "data": invoice_data,
+                    "invoice_details": invoice_details,
                     "epicor_url": epicor_url
                 }
             else:
@@ -63,6 +73,7 @@ def get_invoice_from_epicor(invoice_number, company='SAINC'):
                 return {
                     "found": False,
                     "data": None,
+                    "invoice_details": None,
                     "epicor_url": None
                 }
         except Exception as e:
@@ -70,6 +81,7 @@ def get_invoice_from_epicor(invoice_number, company='SAINC'):
             return {
                 "found": False,
                 "data": None,
+                "invoice_details": None,
                 "epicor_url": None
             }
     else:
@@ -77,6 +89,7 @@ def get_invoice_from_epicor(invoice_number, company='SAINC'):
         return {
             "found": False,
             "data": None,
+            "invoice_details": None,
             "epicor_url": None
         }
 

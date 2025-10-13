@@ -32,7 +32,24 @@ The AI classifies emails into these six categories:
 ```
 EmailAgent_AP/
 │
-├── main.py                          # Entry point - orchestrates the email processing workflow
+├── app.py                           # Flask API - Main entry point with Outlook Add-in support
+│
+├── static/                          # Static assets for add-in
+│   ├── css/
+│   │   └── taskpane.css
+│   ├── js/
+│   │   └── taskpane.js
+│   └── images/
+│       ├── icon-16.png
+│       ├── icon-32.png
+│       └── icon-80.png
+│
+├── templates/                       # HTML templates for add-in
+│   ├── taskpane.html
+│   └── commands.html
+│
+├── outlook-addin/                   # Outlook Add-in manifest
+│   └── manifest.xml
 │
 ├── core/                            # Core application modules
 │   ├── integrations/                # External service integrations
@@ -47,26 +64,19 @@ EmailAgent_AP/
 │   │   └── classifier.py           # OpenAI GPT-5 integration for email categorization & invoice extraction
 │   │
 │   └── utils/                       # Utility modules
+│       ├── monitor_system.py       # Background email monitoring (1-minute polling loop)
+│       ├── email_processor.py      # Email processing logic
 │       ├── file_system.py          # Email organization and file system management
 │       ├── secret_manager.py       # Credentials management (loads from .env)
 │       └── log_manager/
 │           └── log_manager.py      # Error logging and process tracking
 │
 ├── dev/                             # Development utilities
-│   └── test_get_emails.py          # Test script for viewing fetched emails
+│   └── generate_cert.py            # SSL certificate generator for local HTTPS
 │
-└── emails/                          # OUTPUT: Organized email storage
-    └── Week_Of_Oct_13_2025/        # Weekly folders (Monday-Sunday, MST)
-        ├── new_invoice/
-        │   └── email_subject_20251013_115523/
-        │       ├── email_details.txt
-        │       ├── invoice.pdf
-        │       └── invoice_verification.json  # Invoice verification results with Epicor links
-        ├── supplier_statement/
-        ├── request_for_status/
-        ├── account_update/
-        ├── misc_spam/
-        └── other/
+└── emails_data/                     # JSON cache for processed emails
+    ├── *.json                       # Individual email processing results
+    └── id_mapping.json              # Maps email IDs to processed data
 ```
 
 ## How It Works
@@ -170,7 +180,7 @@ When the AI detects invoice numbers in an email, the system automatically verifi
 - Enables one-click access to invoice details in Epicor
 
 **Output:**
-Creates `invoice_verification.json` in each email folder containing:
+Creates `invoices.json` in each email folder containing:
 ```json
 {
   "invoices": [
@@ -259,7 +269,7 @@ Tracks:
    └─→ If invoices detected:
        ├─→ Query Epicor for each invoice number
        ├─→ Generate Epicor URLs for found invoices
-       └─→ Save invoice_verification.json
+       └─→ Save invoices.json
 ```
 
 ## Key Features
@@ -311,7 +321,7 @@ emails/Week_Of_Oct_13_2025/new_invoice/invoice_payment_20251013_115523/
 ├── email_details.txt          # Full email content
 ├── invoice.pdf                 # Attachment 1
 ├── receipt.xlsx               # Attachment 2
-└── invoice_verification.json  # Epicor verification results (if invoices detected)
+└── invoices.json  # Epicor verification results (if invoices detected)
 ```
 
 **email_details.txt format:**
@@ -324,7 +334,7 @@ BODY:
 [Clean, readable email content]
 ```
 
-**invoice_verification.json format:**
+**invoices.json format:**
 ```json
 {
   "invoices": [

@@ -10,6 +10,12 @@ __pycache__/
 
 # Email Data
 emails/
+emails_data/*.json
+emails_data/id_mapping.json
+
+# SSL Certificates
+localhost.crt
+localhost.key
 
 # Logs
 core/utils/log_manager/log_files/
