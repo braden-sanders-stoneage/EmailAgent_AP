@@ -2,19 +2,27 @@
 
 ## Overview
 
-This is an intelligent email processing system that automatically fetches, categorizes, and organizes emails from Microsoft Outlook using AI-powered classification. The system uses OpenAI's GPT-5 to analyze email content and attachments, extracts invoice numbers, verifies them against Epicor ERP, and saves everything into a structured folder hierarchy organized by business week and category.
+This is an intelligent email processing system that automatically fetches, categorizes, and organizes emails from Microsoft Outlook using AI-powered classification. The system runs as a Flask API with a background monitoring service that polls the inbox every 60 seconds, then displays results through an **Outlook Add-in** for easy access directly in Outlook Web.
+
+**Key Components:**
+- **Flask API** - Serves the Outlook Add-in and provides email data endpoints
+- **Background Monitor** - Automatically polls inbox every 60 seconds for new emails
+- **AI Classification** - Uses OpenAI GPT-5 to categorize and extract invoice numbers
+- **Epicor Integration** - Verifies invoices in Epicor ERP with direct deep links
+- **Outlook Add-in** - Displays categorization and invoice data in a sidebar panel
 
 ## What It Does
 
 The system performs the following workflow:
 
-1. **Authenticates** with Microsoft Graph API to access Outlook mailbox
-2. **Fetches emails** from the inbox (configurable to include read/unread)
-3. **Processes attachments** - Downloads and decodes PDFs, images, and other file types
+1. **Background Monitoring** - Polls inbox every 60 seconds for unread emails
+2. **Authenticates** with Microsoft Graph API to access Outlook mailbox
+3. **Processes emails** - Downloads and decodes attachments (PDFs, images, etc.)
 4. **Cleans HTML content** - Converts HTML email bodies to clean, readable plain text
-5. **AI Categorization** - Uses OpenAI GPT-5 to categorize each email into one of six predefined categories and extract invoice numbers
-6. **Organizes & Saves** - Saves emails with their attachments into a structured folder system organized by business week
-7. **Invoice Verification** - Checks extracted invoice numbers against Epicor ERP and generates direct links to invoices
+5. **AI Categorization** - Uses OpenAI GPT-5 to categorize emails and extract invoice numbers
+6. **Invoice Verification** - Checks invoice numbers against Epicor ERP and generates deep links
+7. **Caches Results** - Saves processed data to JSON files for instant retrieval
+8. **Outlook Integration** - Displays results in add-in sidebar when user opens an email
 
 ## Email Categories
 
@@ -66,7 +74,6 @@ EmailAgent_AP/
 │   └── utils/                       # Utility modules
 │       ├── monitor_system.py       # Background email monitoring (1-minute polling loop)
 │       ├── email_processor.py      # Email processing logic
-│       ├── file_system.py          # Email organization and file system management
 │       ├── secret_manager.py       # Credentials management (loads from .env)
 │       └── log_manager/
 │           └── log_manager.py      # Error logging and process tracking
@@ -141,27 +148,19 @@ Uses OpenAI's Responses API with structured outputs:
 - If AI classification fails, defaults to "other" category
 - Prints error details but continues processing
 
-### 5. Email Organization (`core/utils/file_system.py`)
+### 5. Email Caching (`core/utils/monitor_system.py`)
 
-**Weekly Folder Management:**
-- Calculates current business week (Monday-Sunday) in Mountain Standard Time (MST)
-- Sunday emails belong to the PREVIOUS week
-- Format: `Week_Of_Oct_13_2025` (where Oct 13 is the Monday)
-- Automatically creates new week folders each Monday
+**JSON Cache System:**
+- Saves processed email data to `emails_data/<email_id>.json`
+- Stores complete categorization results, invoice data, and Epicor verification
+- Creates ID mapping file for quick lookups by internet message ID
+- Enables instant retrieval when user opens add-in
 
-**Folder Creation Process:**
-1. Determine current week folder (`Week_Of_Oct_13_2025`)
-2. Create category subfolder (`new_invoice`, etc.)
-3. Create email-specific folder: `{sanitized_subject}_{timestamp}`
-4. Save `email_details.txt` with full email content
-5. Save all attachments with original filenames
-
-**Subject Sanitization:**
-- Converts to lowercase snake_case
-- Removes special characters
-- Replaces spaces/hyphens with underscores
-- Truncates to 50 characters
-- Handles empty subjects → "no_subject"
+**Cache Structure:**
+- One JSON file per processed email
+- Contains: category, reason, invoice numbers, Epicor results, sender info
+- `id_mapping.json` maps internet message IDs to internal email IDs
+- No file size limits - caches all processed emails
 
 ### 6. Invoice Verification (`core/integrations/epicor/invoices.py`)
 
@@ -237,39 +236,96 @@ Tracks:
 - Attachment processing start/completion
 - Saved to timestamped log files in `core/utils/log_manager/log_files/`
 
+## Quick Start
+
+### 1. Install Dependencies
+```powershell
+pip install -r requirements.txt
+```
+
+### 2. Generate SSL Certificate (First Time Only)
+```powershell
+python dev/generate_cert.py
+```
+
+### 3. Start Flask Server
+```powershell
+python app.py
+```
+
+You should see:
+```
+Email monitor started, checking every 60 seconds...
+Starting Flask server on https://localhost:5000
+```
+
+### 4. Install Outlook Add-in
+
+1. Open **Outlook Web** (outlook.office.com)
+2. Click **Settings** (⚙️) → **View all Outlook settings**
+3. Go to **Mail** → **Integrated apps** or **Get Add-ins**
+4. Click **"My Add-ins"** → **"Add App from File"**
+5. Upload `outlook-addin/manifest.xml`
+6. Confirm installation
+
+### 5. Use the Add-in
+
+1. Open any email in Outlook Web
+2. Click **"Show Invoice Info"** button in the toolbar
+3. Sidebar opens displaying:
+   - Email category (color-coded badge)
+   - Invoice numbers (if detected)
+   - Epicor verification status
+   - Vendor, amount, balance, payment status
+   - **"Open in Epicor"** buttons with direct deep links
+
 ## Process Flow
 
 ```
-1. main.py starts
+1. Flask server starts (app.py)
    │
-2. Authenticate with Graph API
+   ├─→ Background monitor thread starts
+   │   └─→ Polls inbox every 60 seconds
    │
-3. Fetch emails (limit: 10, configurable)
+2. Monitor detects unread email
    │
-4. For each email:
+3. Authenticate with Graph API
    │
-   ├─→ Print email preview (from, subject, date, body preview)
+4. For each unread email:
    │
-   ├─→ If has attachments:
-   │   ├─→ Fetch raw attachments
-   │   └─→ Process attachments (decode base64, identify types)
+   ├─→ Fetch email data and attachments
+   │
+   ├─→ Process attachments (decode PDFs, images)
    │
    ├─→ Categorize with AI:
-   │   ├─→ Send email data + PDFs to GPT-5
-   │   ├─→ Get structured response (category + reason + invoice detection)
-   │   └─→ Print categorization result and invoice numbers
+   │   ├─→ Send email content + PDFs to GPT-5
+   │   ├─→ Extract invoice numbers
+   │   └─→ Get category classification
    │
-   ├─→ Save to organized folders:
-   │   ├─→ Calculate week folder
-   │   ├─→ Create category subfolder
-   │   ├─→ Create email-specific folder
-   │   ├─→ Save email_details.txt
-   │   └─→ Save all attachments
+   ├─→ Verify invoices in Epicor:
+   │   ├─→ Query Epicor API for each invoice
+   │   ├─→ Generate deep links to invoices
+   │   └─→ Get vendor, amount, balance, status
    │
-   └─→ If invoices detected:
-       ├─→ Query Epicor for each invoice number
-       ├─→ Generate Epicor URLs for found invoices
-       └─→ Save invoices.json
+   ├─→ Apply Outlook category label (color coding)
+   │
+   └─→ Save results to emails_data/<email_id>.json
+   
+5. User opens email in Outlook Web
+   │
+6. User clicks "Show Invoice Info" button
+   │
+7. Add-in loads in sidebar
+   │
+8. Add-in calls: GET /api/email/<email_id>
+   │
+9. Flask returns cached JSON data
+   │
+10. Add-in displays:
+    ├─→ Category badge
+    ├─→ Invoice numbers
+    ├─→ Epicor verification results
+    └─→ "Open in Epicor" buttons
 ```
 
 ## Key Features
@@ -285,11 +341,12 @@ Tracks:
 - Base64 decoding with error handling
 - PDFs are analyzed by AI for better categorization
 
-### Business Week Organization
-- Automatic weekly folder creation based on Monday start date
-- Mountain Standard Time (MST) timezone
-- Sunday emails go into the previous week's folder
-- Historical weeks remain intact
+### Outlook Add-in Integration
+- Displays results directly in Outlook Web sidebar
+- No need to navigate folders - instant access from any email
+- Color-coded category badges for quick visual identification
+- One-click "Open in Epicor" buttons with deep links
+- Real-time data retrieval from JSON cache
 
 ### AI-Powered Classification & Invoice Extraction
 - Context-aware categorization using email content and attachments
@@ -314,40 +371,42 @@ Tracks:
 
 ## Output Structure
 
-Each processed email results in:
+Each processed email is cached as JSON for instant retrieval:
 
-```
-emails/Week_Of_Oct_13_2025/new_invoice/invoice_payment_20251013_115523/
-├── email_details.txt          # Full email content
-├── invoice.pdf                 # Attachment 1
-├── receipt.xlsx               # Attachment 2
-└── invoices.json  # Epicor verification results (if invoices detected)
-```
-
-**email_details.txt format:**
-```
-FROM: Sender Name <sender@example.com>
-SUBJECT: Invoice #12345
-DATE: 2025-10-13T11:55:23Z
-
-BODY:
-[Clean, readable email content]
-```
-
-**invoices.json format:**
+### emails_data/<email_id>.json
 ```json
 {
-  "invoices": [
+  "email_id": "AQMkAGNl...",
+  "subject": "Invoice C628970",
+  "sender_name": "Vendor Name",
+  "sender_email": "vendor@example.com",
+  "category": "new_invoice",
+  "reason": "Email contains an invoice from a supplier",
+  "has_invoice": true,
+  "invoice_numbers": ["C628970"],
+  "epicor_results": [
     {
       "invoice_number": "C628970",
       "found_in_epicor": true,
-      "epicor_url": "https://kineticerp.stoneagetools.com/KineticLive/Apps/ERP/Home/#/view/APGO1070/Erp.UI.APInvoiceTracker?..."
-    },
-    {
-      "invoice_number": "INV-12345",
-      "found_in_epicor": false
+      "epicor_url": "https://kineticerp.stoneagetools.com/...",
+      "invoice_data": {
+        "VendorName": "eShipping LLC",
+        "DocInvoiceAmt": 697.94,
+        "DocInvoiceBal": 697.94,
+        "PaymentStatus": "Unpaid",
+        "OpenPayable": true
+      }
     }
-  ]
+  ],
+  "internet_message_id": "<abc123@mail.com>"
+}
+```
+
+### emails_data/id_mapping.json
+Maps internet message IDs to internal email IDs for quick lookup:
+```json
+{
+  "<abc123@mail.com>": "AQMkAGNl..."
 }
 ```
 
