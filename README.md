@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is an intelligent email processing system that automatically fetches, categorizes, and organizes emails from Microsoft Outlook using AI-powered classification. The system uses OpenAI's GPT-5 to analyze email content and attachments, then saves them into a structured folder hierarchy organized by business week and category.
+This is an intelligent email processing system that automatically fetches, categorizes, and organizes emails from Microsoft Outlook using AI-powered classification. The system uses OpenAI's GPT-5 to analyze email content and attachments, extracts invoice numbers, verifies them against Epicor ERP, and saves everything into a structured folder hierarchy organized by business week and category.
 
 ## What It Does
 
@@ -12,8 +12,9 @@ The system performs the following workflow:
 2. **Fetches emails** from the inbox (configurable to include read/unread)
 3. **Processes attachments** - Downloads and decodes PDFs, images, and other file types
 4. **Cleans HTML content** - Converts HTML email bodies to clean, readable plain text
-5. **AI Categorization** - Uses OpenAI GPT-5 to categorize each email into one of six predefined categories
+5. **AI Categorization** - Uses OpenAI GPT-5 to categorize each email into one of six predefined categories and extract invoice numbers
 6. **Organizes & Saves** - Saves emails with their attachments into a structured folder system organized by business week
+7. **Invoice Verification** - Checks extracted invoice numbers against Epicor ERP and generates direct links to invoices
 
 ## Email Categories
 
@@ -39,10 +40,11 @@ EmailAgent_AP/
 │   │   │   ├── client.py           # Graph API authentication, email fetching, attachment retrieval
 │   │   │   └── attachments.py      # Attachment processing (PDFs, images, .msg files)
 │   │   └── epicor/                  # ERP system integration
-│   │       └── epicor_utils.py     # Epicor-specific utilities
+│   │       ├── epicor_utils.py     # Epicor API utilities and authentication
+│   │       └── invoices.py         # Invoice verification and URL generation
 │   │
 │   ├── ai/                          # AI classification module
-│   │   └── classifier.py           # OpenAI GPT-5 integration for email categorization
+│   │   └── classifier.py           # OpenAI GPT-5 integration for email categorization & invoice extraction
 │   │
 │   └── utils/                       # Utility modules
 │       ├── file_system.py          # Email organization and file system management
@@ -58,7 +60,8 @@ EmailAgent_AP/
         ├── new_invoice/
         │   └── email_subject_20251013_115523/
         │       ├── email_details.txt
-        │       └── invoice.pdf
+        │       ├── invoice.pdf
+        │       └── invoice_verification.json  # Invoice verification results with Epicor links
         ├── supplier_statement/
         ├── request_for_status/
         ├── account_update/
@@ -98,7 +101,7 @@ Returns structured data with:
 - `processed`: All processed attachments
 - `skipped`: Attachments that couldn't be processed
 
-### 4. AI Classification (`core/ai/classifier.py`)
+### 4. AI Classification & Invoice Detection (`core/ai/classifier.py`)
 
 Uses OpenAI's Responses API with structured outputs:
 
@@ -112,7 +115,17 @@ Uses OpenAI's Responses API with structured outputs:
 **AI Analysis:**
 - Model: GPT-5 with minimal reasoning effort
 - Uses Pydantic structured outputs for consistent response format
-- Returns: `EmailCategorization` object with `email_type` and `reason`
+- Returns: `EmailCategorization` object with:
+  - `email_type`: Category classification
+  - `reason`: Explanation for categorization
+  - `has_invoice`: Boolean indicating if invoice numbers were found
+  - `invoice_numbers`: List of extracted invoice numbers from subject, body, and attachment filenames
+
+**Invoice Detection:**
+- AI scans email subject, body content, and attachment filenames
+- Recognizes various invoice number patterns (numeric, alphanumeric, with prefixes like "INV-", etc.)
+- Examples: "12345", "INV-67890", "C628970"
+- Returns empty list if no invoices found
 
 **Error Handling:**
 - If AI classification fails, defaults to "other" category
@@ -140,7 +153,47 @@ Uses OpenAI's Responses API with structured outputs:
 - Truncates to 50 characters
 - Handles empty subjects → "no_subject"
 
-### 6. Secret Management (`core/utils/secret_manager.py`)
+### 6. Invoice Verification (`core/integrations/epicor/invoices.py`)
+
+**Epicor Integration:**
+When the AI detects invoice numbers in an email, the system automatically verifies them against Epicor ERP:
+
+**Verification Process:**
+1. Queries Epicor BAQ (Business Activity Query) `APInvDtl` for each invoice number
+2. Checks if invoice exists in the system
+3. Extracts vendor number and invoice details from response
+4. Generates direct URL to invoice in Epicor web interface
+
+**URL Generation:**
+- Constructs deep links to specific invoices in Epicor Kinetic
+- URL format includes vendor number, invoice number, company, and workspace identifiers
+- Enables one-click access to invoice details in Epicor
+
+**Output:**
+Creates `invoice_verification.json` in each email folder containing:
+```json
+{
+  "invoices": [
+    {
+      "invoice_number": "C628970",
+      "found_in_epicor": true,
+      "epicor_url": "https://kineticerp.stoneagetools.com/KineticLive/Apps/ERP/Home/..."
+    },
+    {
+      "invoice_number": "12345",
+      "found_in_epicor": false
+    }
+  ]
+}
+```
+
+**API Details:**
+- Uses Epicor REST API v2 with OData queries
+- Authenticates with Basic auth + API key
+- Filters invoices by `APInvHed_InvoiceNum` field
+- Returns vendor info, invoice amounts, payment status, and more
+
+### 7. Secret Management (`core/utils/secret_manager.py`)
 
 Loads credentials from `.env` file:
 
@@ -153,13 +206,21 @@ Loads credentials from `.env` file:
 **OpenAI Secret:**
 - `OPENAI_API_KEY`
 
+**Epicor Secrets:**
+- `EPICOR_SERVER` - Epicor server hostname
+- `EPICOR_INSTANCE` - Epicor instance name (e.g., "KineticLive")
+- `EPICOR_API_KEY` - API key for REST authentication
+- `EPICOR_USERNAME` - Username for Basic auth
+- `EPICOR_PASSWORD` - Password for Basic auth
+- `EPICOR_CHANNEL_ID` - Workspace channel ID for deep linking
+
 **Other Integrations:**
 - AWS Cognito credentials
 - Marketo credentials
 - Optimizely credentials
 - Asana credentials
 
-### 7. Logging (`core/utils/log_manager/log_manager.py`)
+### 8. Logging (`core/utils/log_manager/log_manager.py`)
 
 Tracks:
 - Errors with full stack traces
@@ -185,15 +246,20 @@ Tracks:
    │
    ├─→ Categorize with AI:
    │   ├─→ Send email data + PDFs to GPT-5
-   │   ├─→ Get structured response (category + reason)
-   │   └─→ Print categorization result
+   │   ├─→ Get structured response (category + reason + invoice detection)
+   │   └─→ Print categorization result and invoice numbers
    │
-   └─→ Save to organized folders:
-       ├─→ Calculate week folder
-       ├─→ Create category subfolder
-       ├─→ Create email-specific folder
-       ├─→ Save email_details.txt
-       └─→ Save all attachments
+   ├─→ Save to organized folders:
+   │   ├─→ Calculate week folder
+   │   ├─→ Create category subfolder
+   │   ├─→ Create email-specific folder
+   │   ├─→ Save email_details.txt
+   │   └─→ Save all attachments
+   │
+   └─→ If invoices detected:
+       ├─→ Query Epicor for each invoice number
+       ├─→ Generate Epicor URLs for found invoices
+       └─→ Save invoice_verification.json
 ```
 
 ## Key Features
@@ -215,11 +281,20 @@ Tracks:
 - Sunday emails go into the previous week's folder
 - Historical weeks remain intact
 
-### AI-Powered Classification
+### AI-Powered Classification & Invoice Extraction
 - Context-aware categorization using email content and attachments
+- Automatic invoice number detection from subject, body, and filenames
+- Recognizes various invoice number formats and patterns
 - Structured output format for consistent processing
 - Fallback handling for API errors
 - Detailed reasoning provided for each classification
+
+### Epicor ERP Integration
+- Automatic invoice verification against Epicor system
+- Direct deep-linking to invoices in Epicor web interface
+- Real-time invoice status checking (paid/unpaid, amounts, vendor info)
+- Structured JSON output for downstream automation
+- Support for multiple invoice numbers per email
 
 ### Scalable Architecture
 - Modular design with clear separation of concerns
@@ -235,7 +310,8 @@ Each processed email results in:
 emails/Week_Of_Oct_13_2025/new_invoice/invoice_payment_20251013_115523/
 ├── email_details.txt          # Full email content
 ├── invoice.pdf                 # Attachment 1
-└── receipt.xlsx               # Attachment 2
+├── receipt.xlsx               # Attachment 2
+└── invoice_verification.json  # Epicor verification results (if invoices detected)
 ```
 
 **email_details.txt format:**
@@ -248,6 +324,23 @@ BODY:
 [Clean, readable email content]
 ```
 
+**invoice_verification.json format:**
+```json
+{
+  "invoices": [
+    {
+      "invoice_number": "C628970",
+      "found_in_epicor": true,
+      "epicor_url": "https://kineticerp.stoneagetools.com/KineticLive/Apps/ERP/Home/#/view/APGO1070/Erp.UI.APInvoiceTracker?..."
+    },
+    {
+      "invoice_number": "INV-12345",
+      "found_in_epicor": false
+    }
+  ]
+}
+```
+
 ## Debug Features
 
 The system includes comprehensive debug output:
@@ -255,15 +348,20 @@ The system includes comprehensive debug output:
 - Processed attachments structure and counts
 - Attachment processing success/failure per file
 - AI classification results with reasoning
+- Detected invoice numbers
+- Epicor API request/response details
+- Invoice verification results with clickable URLs
 - Folder paths where emails are saved
 
 ## Limitations & Considerations
 
 1. **Image Attachments**: Images are saved but NOT sent to the AI (OpenAI Responses API doesn't support image analysis in this format)
 2. **Body Truncation**: Email bodies > 2000 characters are truncated before sending to AI
-3. **API Costs**: Each email classification costs OpenAI API credits (GPT-5 usage)
+3. **API Costs**: Each email classification costs OpenAI API credits (GPT-5 usage), plus Epicor API calls for invoice verification
 4. **Weekly Folders**: Week determination uses MST - may differ for users in other timezones
 5. **Read Status**: Currently processes all emails; doesn't mark as read after processing
+6. **Invoice Detection**: Relies on AI pattern recognition; may occasionally miss invoices with unusual formatting or identify false positives
+7. **Epicor BAQ Dependency**: Requires the `APInvDtl` BAQ to be published and accessible in Epicor
 
 ## Future Enhancement Opportunities
 
@@ -273,6 +371,9 @@ The system includes comprehensive debug output:
 - Batch processing optimization for large volumes
 - Dashboard for viewing categorization statistics
 - Email forwarding/routing based on category
-- Integration with Epicor ERP for invoice processing
 - Custom category definitions per user
+- Automatic invoice approval workflows based on verification results
+- Integration with other ERP modules (Purchase Orders, Receipts, etc.)
+- Multi-company support for invoice verification
+- Invoice matching: cross-reference invoice numbers with PO numbers
 

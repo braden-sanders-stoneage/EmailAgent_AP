@@ -11,3 +11,6 @@ __pycache__/
 # Email Data
 emails/
 
+# Logs
+core/utils/log_manager/log_files/
+
