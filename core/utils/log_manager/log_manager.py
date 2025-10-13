@@ -7,7 +7,7 @@ _current_log_file = None
 
 
 def _ensure_log_directory():
-    log_dir = "utils/log_manager/log_files"
+    log_dir = "core/utils/log_manager/log_files"
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
