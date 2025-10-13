@@ -1,6 +1,6 @@
 import base64
 from typing import Any, Dict, List, Optional
-from utils.log_manager.log_manager import (
+from core.utils.log_manager.log_manager import (
     log_error,
     log_attachments_process_start,
     log_attachments_completed,

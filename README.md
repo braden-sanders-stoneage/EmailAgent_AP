@@ -33,23 +33,22 @@ EmailAgent_AP/
 │
 ├── main.py                          # Entry point - orchestrates the email processing workflow
 │
-├── integrations/                    # External service integrations
-│   ├── outlook/                     # Microsoft Graph API integration
-│   │   ├── client.py               # Graph API authentication, email fetching, attachment retrieval
-│   │   └── attachments.py          # Attachment processing (PDFs, images, .msg files)
-│   └── epicor/                      # ERP system integration
-│       └── epicor_utils.py         # Epicor-specific utilities
-│
-├── ai/                              # AI classification module
-│   └── classifier.py               # OpenAI GPT-5 integration for email categorization
-│
-├── core/                            # Core business logic
-│   └── sorter.py                   # Email organization and file system management
-│
-├── utils/                           # Utility modules
-│   ├── secret_manager.py           # Credentials management (loads from .env)
-│   └── log_manager/
-│       └── log_manager.py          # Error logging and process tracking
+├── core/                            # Core application modules
+│   ├── integrations/                # External service integrations
+│   │   ├── outlook/                 # Microsoft Graph API integration
+│   │   │   ├── client.py           # Graph API authentication, email fetching, attachment retrieval
+│   │   │   └── attachments.py      # Attachment processing (PDFs, images, .msg files)
+│   │   └── epicor/                  # ERP system integration
+│   │       └── epicor_utils.py     # Epicor-specific utilities
+│   │
+│   ├── ai/                          # AI classification module
+│   │   └── classifier.py           # OpenAI GPT-5 integration for email categorization
+│   │
+│   └── utils/                       # Utility modules
+│       ├── file_system.py          # Email organization and file system management
+│       ├── secret_manager.py       # Credentials management (loads from .env)
+│       └── log_manager/
+│           └── log_manager.py      # Error logging and process tracking
 │
 ├── dev/                             # Development utilities
 │   └── test_get_emails.py          # Test script for viewing fetched emails
@@ -69,7 +68,7 @@ EmailAgent_AP/
 
 ## How It Works
 
-### 1. Email Fetching (`integrations/outlook/client.py`)
+### 1. Email Fetching (`core/integrations/outlook/client.py`)
 
 - Authenticates with Microsoft Graph API using OAuth2 (tenant ID, client ID, client secret)
 - Fetches emails from specified mailbox folder (default: inbox)
@@ -77,14 +76,14 @@ EmailAgent_AP/
 - Retrieves full email metadata: sender, subject, body, recipients, timestamps
 - Downloads raw attachments via Graph API
 
-### 2. HTML Content Cleaning (`integrations/outlook/client.py`)
+### 2. HTML Content Cleaning (`core/integrations/outlook/client.py`)
 
 - Uses `html2text` library to convert HTML email bodies to clean markdown/plain text
 - Removes scripts, styles, tracking pixels, and zero-width spaces
 - Preserves meaningful structure (paragraphs, line breaks)
 - Makes email content readable for both humans and AI
 
-### 3. Attachment Processing (`integrations/outlook/attachments.py`)
+### 3. Attachment Processing (`core/integrations/outlook/attachments.py`)
 
 The system handles multiple attachment types:
 
@@ -99,7 +98,7 @@ Returns structured data with:
 - `processed`: All processed attachments
 - `skipped`: Attachments that couldn't be processed
 
-### 4. AI Classification (`ai/classifier.py`)
+### 4. AI Classification (`core/ai/classifier.py`)
 
 Uses OpenAI's Responses API with structured outputs:
 
@@ -119,7 +118,7 @@ Uses OpenAI's Responses API with structured outputs:
 - If AI classification fails, defaults to "other" category
 - Prints error details but continues processing
 
-### 5. Email Organization (`core/sorter.py`)
+### 5. Email Organization (`core/utils/file_system.py`)
 
 **Weekly Folder Management:**
 - Calculates current business week (Monday-Sunday) in Mountain Standard Time (MST)
@@ -141,7 +140,7 @@ Uses OpenAI's Responses API with structured outputs:
 - Truncates to 50 characters
 - Handles empty subjects → "no_subject"
 
-### 6. Secret Management (`utils/secret_manager.py`)
+### 6. Secret Management (`core/utils/secret_manager.py`)
 
 Loads credentials from `.env` file:
 
@@ -160,12 +159,12 @@ Loads credentials from `.env` file:
 - Optimizely credentials
 - Asana credentials
 
-### 7. Logging (`utils/log_manager/log_manager.py`)
+### 7. Logging (`core/utils/log_manager/log_manager.py`)
 
 Tracks:
 - Errors with full stack traces
 - Attachment processing start/completion
-- Saved to timestamped log files in `utils/log_manager/log_files/`
+- Saved to timestamped log files in `core/utils/log_manager/log_files/`
 
 ## Process Flow
 

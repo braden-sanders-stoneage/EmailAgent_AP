@@ -6,7 +6,7 @@ from openai import OpenAI
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils.secret_manager import get_openai_secrets
+from core.utils.secret_manager import get_openai_secrets
 
 
 class EmailCategorization(BaseModel):

@@ -10,8 +10,8 @@ import html2text
 # Add project root to path for direct execution
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from utils.secret_manager import get_outlook_secrets
-from utils.log_manager.log_manager import log_error
+from core.utils.secret_manager import get_outlook_secrets
+from core.utils.log_manager.log_manager import log_error
 
 BASE_URL = "https://graph.microsoft.com/v1.0"
 

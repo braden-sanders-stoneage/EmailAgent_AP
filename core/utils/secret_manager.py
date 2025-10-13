@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from utils.log_manager.log_manager import log_error
+from core.utils.log_manager.log_manager import log_error
 
 
 def get_secret(secret_name):

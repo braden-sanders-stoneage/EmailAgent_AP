@@ -4,7 +4,7 @@ from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from integrations.outlook.client import authenticate_graph_api, get_emails
+from core.integrations.outlook.client import authenticate_graph_api, get_emails
 
 
 def print_separator(char="=", length=100):

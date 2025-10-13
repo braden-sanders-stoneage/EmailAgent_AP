@@ -3,10 +3,10 @@ import os
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from integrations.outlook.client import authenticate_graph_api, get_emails, get_email_attachments
-from integrations.outlook.attachments import process_attachments
-from ai.classifier import categorize_email
-from core.sorter import sort_email
+from core.integrations.outlook.client import authenticate_graph_api, get_emails, get_email_attachments
+from core.integrations.outlook.attachments import process_attachments
+from core.ai.classifier import categorize_email
+from core.utils.file_system import sort_email
 
 
 def main():

@@ -8,4 +8,6 @@ __pycache__/
 # Environment files
 .env
 
+# Email Data
+emails/
 
