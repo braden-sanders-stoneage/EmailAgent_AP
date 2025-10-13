@@ -1,0 +1,19 @@
+FROM: eShipping Billing <billing@eShipping.biz>
+SUBJECT: eShipping Electronic Invoice for 10/13/2025 - C629958
+DATE: 2025-10-13T17:30:38Z
+
+BODY:
+Valued eShipping Customer: 
+ 
+ 
+ Attached to this e-mail is a PDF copy of invoice C629958 for 
+ shipments with eShipping via account number C629958.
+ 
+ Please review your invoice and remit payment by the due date printed at the top.
+ 
+ As always, thank you for your business! 
+ 
+ 
+ Sincerely, 
+ Your eShipping Team
+

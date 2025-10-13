@@ -1,0 +1,46 @@
+FROM: invoice.reply@mcmaster.com <invoice.reply@mcmaster.com>
+SUBJECT: Credit from Your Order 90482
+DATE: 2025-10-04T06:41:57Z
+
+BODY:
+| |   
+---  
+404-346-7000  
+404-349-9091 (fax)  
+[atl.sales@mcmaster.com](mailto:atl.sales@mcmaster.com "Email McMaster-Carr")  
+  
+Credit  
+| | Billed toSTONEAGE INC  
+P O BOX 2907  
+DURANGO CO 81302-2907  
+  
+---  
+| | Purchase Order| 90482  
+---|---  
+Available Credit| $(75.90)  
+Credit| 53090970  
+Credit Date| 10/3/25  
+| Shipped toStoneage Inc  
+Stoneage Waterblast Tools  
+466 S Skylane Dr  
+Durango CO 81303-6010  
+  
+---  
+| Mailing Address| McMaster-Carr  
+PO Box 7690  
+Chicago IL 60680-7690  
+  
+---|---  
+Your Account| 240416700  
+Evan Elliott placed this order.  
+  
+  
+| Line| | Product| Ordered| Shipped| Credited| Price| Total  
+---|---|---|---|---|---|---|---  
+9| [3741N135](https://url.us.m.mimecastprotect.com/s/NkriC2kwVGspWK6wcnfqu5-Pz6?domain=mcmaster.com "Add item to current order")| Corrosion-Resistant Stacked Wave Disc Spring, Standard, for 0.2" Shaft Diameter, 0.07" Compressed Height| 40Each| 40| (30)| 2.53Each| (75.90)  
+| NotesThis is a credit for purchase order 90482, invoice 51444571, packing list number 2454891-11.| | Merchandise| (75.90)  
+---|---  
+Credit Total| $(75.90)  
+  
+  
+Federal ID 36-1458720

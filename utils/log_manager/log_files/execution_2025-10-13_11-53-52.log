@@ -1,0 +1,5 @@
+[2025-10-13 11:53:52] Graph API authentication failed: 404 - 
+[2025-10-13 11:53:52]   Exception Type: Exception
+[2025-10-13 11:53:52]   Exception Message: Graph API authentication error
+[2025-10-13 11:53:52]   Stack Trace:
+[2025-10-13 11:53:52]     Exception: Graph API authentication error

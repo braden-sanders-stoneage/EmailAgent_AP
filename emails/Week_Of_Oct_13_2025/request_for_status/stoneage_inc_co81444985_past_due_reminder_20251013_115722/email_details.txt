@@ -1,0 +1,57 @@
+FROM: system@finance.motion.com <system@finance.motion.com>
+SUBJECT: STONEAGE INC CO81444985 - Past Due Reminder
+DATE: 2025-09-30T21:56:33Z
+
+BODY:
+STONEAGE INC Account# CO81444985 Dear All, Please note that there are one or more invoices past due on your account. Please remit payment for the past due invoice(s) listed below in the amount of 969.69, or contact us at the number below if you have any questions. Invoice# In ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌  
+---  
+| i| | This message needs your attention
+
+  * Some Recipients have never replied to this person.
+
+  
+---  
+[Mark This as Safe](https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Flogin-us.mimecast.com%2Fu%2Flogin%2F%3Fgta%3Dapps%26link%3Dcybergraph-report%2FeyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.S03bqp87GZz0Z6iI9v5ZcvHF_qQ0mkf1Oy-M6XGyQ2wC5df9Fdx1COZwoIfgeATMoQR-tUMQGAdoca4sqHi-fNLV9uiOo1n2kgVlCnaXdEBtbRhU0pQzVRKOxkwRoY77ENAWUJUh_scnTSbZLA5SMyGfUP2qSXih3i_wFA2IXEIbJFEx86-eU1cvgC_336pSII0h08-69cg-Ck0HihHOVp7iFqQQGE7K8XNUvEQGw_TXy3xNbmw4Ab1Do4n62_zWx6FWzfqZCRgEq1AyKRQqg8TShdKs7YWfAhKCaMizYTB5hM13qpZ0ZDbabpnk1UVd-0cbuZJTnwSTswtZqsq6JQ.inEFtd3m5DH-qQzK.BuW_vI1P8INZGq3mf310H81Nz8v5qClXJEKmiuYZPdmVGfjXZth8gZstFyd5t7GzGt2FLrTZvjIaNOeBmTOee_iXHMUrPGYAjEEESETFKLSXkz-xjDYOnQFdvRtUuBIdXiTPvjQ93Lf1VlPDtShHSbpKY_9wewEgTpVmsvgvrJMDjL4TgKbXM-YrM3RIFYPKiYsmWD-nZHOG9xFIX0jMrB6FN9rzXAMuvLmlsDUbTsS-bD60ldDHOhvSZbmkFVpGGUnV8hlKZjQFyT3y0q28C2xZ7EPiQoDmwoA-OgNBM4rjReA9l_Pxvv_RAST2eCROnuJhGVDWWIXwQUEbh46lIBw9-AJpUiRAHVKvh17chIpcuTE2AlHGbC5iuozJdJmKeNqxQv8xecakbj-W_WjOO1p3oWCLTZ21WKBuFvYj-TqdhbpYjyM804Kw3KyItorBD2E2ATUcvZF8ekweIEWmUZTJVahtRQ.DYZ1txfysbexwZe9JLxnLA%26action%3Dsafe&data=05%7C02%7Cap-sausa%40stoneagetools.com%7C9baf5ab3ac674d9d2b2b08de006c247e%7C295bdd275ad449df80267795b3c0239a%7C0%7C0%7C638948661933478233%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2FZcMeO%2BgUaWZg1lmSGlWAvDW%2FI71i1yD%2FsjBle3OBkw%3D&reserved=0) [Report Junk/Phishing](https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Flogin-us.mimecast.com%2Fu%2Flogin%2F%3Fgta%3Dapps%26link%3Dcybergraph-report%2FeyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.cBhpAS1CDpHe3LXCapisj08VdWXFU80YMr8PkjPmeNMw5qzJr69wUr7zkMJllti6Uhw_nQ84594JwMi3Sktxb9DppBOVlIR1pnXgP95xfmQ6wksHPaWzmMCQfe0EQC-Q_ZfGwHdfqz5huZFbtHp-RkKMfxcx3q8UTFpc7uTVjouPMvGSoBsy-SvGrWDARJHwoDgTBVMY8MzFYJ1CmUujAAgPyiHU2QylHi3IVjZpMzB_6m0d8ygkYFJ7ukXLqaL8dn8bxuHZxP8QfrKiavDEAy6tPtsE804nkb0o_wK8QiDz4ptV3JCg826iQ6SrhzaidHjvKSO_z8IVCIPM2qhnow.dGM2PF9KMCkR3nQl.2iotsL1ACPAzUBbINlcIX713kuFR9fiC_PtLg8An0AmjtVPIPF9pdHRirvqgrmqvaTl889SfPMvcj0IR4aiXoSAH_OTFGCFGTgljUfrfrjuWP6XSoeoe0zVMTBiomEZgu0D6-_ohqprfGw9a6jQBaYSgHMP_dZjzrcMLieVUHWlN7trOtpfgMo4pbjJw5nR-nUYhq6FqOGiNebFCmNROw7U2PYhFEI5DNAjsz03OOH1dYEw5oujJfSWZIB0ednpeqwx2m6wP3PNQQtuVuIzECWAWqOIdQ7CdEBtFlhI33OLtxrw4MXvgvIcMzl1_sv-eSrKK9sydcPRtB8UIgTYhggpAeOV-J3wR7hSxPalV0vbrIiZd2ppD2_g98HPq_KuPs7nW-ObFiKQ79EMlSiibpg5it3FDWnIm7VBCN1U4Cw--ruL76QZ5MkOa4aRtiBp196pID8D6lg0q5h7aq4jpsHQFPzGoZFw.x-KJ10ja2yiFifX8Fe1fXw&data=05%7C02%7Cap-sausa%40stoneagetools.com%7C9baf5ab3ac674d9d2b2b08de006c247e%7C295bdd275ad449df80267795b3c0239a%7C0%7C0%7C638948661933526662%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=q%2BOkd%2B7uanaWbe8m9AEylucdfwqepULkcrH0V3fo7v4%3D&reserved=0)| Powered by StoneAge & Mimecast  
+---|---  
+  
+CGBANNERINDICATOR  
+  
+STONEAGE INC
+
+Account# CO81444985
+
+ 
+
+Dear All,
+
+ 
+
+Please note that there are one or more invoices past due on your account.
+
+Please remit payment for the past due invoice(s) listed below in the amount of 969.69, or contact us at the number below if you have any questions.
+
+Invoice#| Invoice Date| Due Date| PO#| Invoice Amt| Open Amt| Currency| Days Past Due  
+---|---|---|---|---|---|---|---  
+CO8101052044| 2025-07-16| 2025-08-15| 89307| 622.95| 622.95| USD| 46  
+CO8101053475| 2025-08-25| 2025-09-24| 90521| 205.14| 205.14| USD| 6  
+CO8101053604| 2025-08-28| 2025-09-27| 90521| 141.60| 141.60| USD| 3  
+ |  |  |  | Total| 969.69|  |    
+  
+  
+We appreciate your efforts in bringing the account current.
+
+Your business is very important to us!
+
+ 
+
+Thank you,
+
+Diaelizabeth Lacson
+
+CEBU user
+
+Motion Industries
+
+Office: 678-271-6892
+
+diaelizabeth.lacson@motion.com
