@@ -20,3 +20,6 @@ localhost.key
 # Logs
 core/utils/log_manager/log_files/
 
+# Dev documents
+dev/test_attachments/
+

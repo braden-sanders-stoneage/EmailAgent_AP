@@ -173,6 +173,7 @@ def process_attachments(graph_attachments: List[Dict[str, Any]]) -> Dict[str, An
     msg_summaries: List[Dict[str, Any]] = []
     skipped: List[Dict[str, Any]] = []
     images: List[Dict[str, Any]] = []
+    pdfs: List[Dict[str, Any]] = []
     other_files: List[Dict[str, Any]] = []
 
     for att in graph_attachments or []:
@@ -239,6 +240,11 @@ def process_attachments(graph_attachments: List[Dict[str, Any]]) -> Dict[str, An
                 "base64_data": base64_data,
             }
             processed.append(other_file)
+            
+            # Track PDFs separately for logging
+            if name.lower().endswith('.pdf') or mime == 'application/pdf':
+                pdfs.append(other_file)
+            
             other_files.append(other_file)
             continue
 
@@ -249,13 +255,14 @@ def process_attachments(graph_attachments: List[Dict[str, Any]]) -> Dict[str, An
             "error": "no_data"
         })
 
-    log_attachments_completed(len(image_blocks), len(msg_summaries), len(skipped))
+    log_attachments_completed(len(image_blocks), len(pdfs), len(msg_summaries), len(skipped))
     return {
         "processed": processed,
         "image_blocks": image_blocks,
         "msg_summaries": msg_summaries,
         "skipped": skipped,
         "images": images,
+        "pdfs": pdfs,
         "other_files": other_files,
     }
 

@@ -21,3 +21,7 @@ pyopenssl
 
 # Optional: Message file parsing (for .msg attachments)
 extract-msg
+
+# Fuzzy string matching for vendor lookup
+fuzzywuzzy
+python-Levenshtein

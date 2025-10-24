@@ -195,3 +195,206 @@ body {
     line-height: 1.5;
 }
 
+#invoiceDataSection {
+    background: white;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#invoiceDataSection h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    color: #000;
+    border-bottom: 2px solid #0078d4;
+    padding-bottom: 8px;
+}
+
+.invoice-field {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.invoice-field label {
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+    min-width: 100px;
+}
+
+.invoice-field input,
+.invoice-field select {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.invoice-field input:focus,
+.invoice-field select:focus {
+    outline: none;
+    border-color: #0078d4;
+    box-shadow: 0 0 0 2px rgba(0,120,212,0.1);
+}
+
+.confidence-indicator {
+    font-size: 18px;
+    margin-left: 4px;
+}
+
+.confidence-high {
+    color: #28a745;
+}
+
+.confidence-medium {
+    color: #ffc107;
+}
+
+.confidence-low {
+    color: #dc3545;
+}
+
+.line-items-header {
+    margin: 16px 0 12px 0;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.line-items-toggle {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.line-items-toggle:hover {
+    background-color: #e8e8e8;
+}
+
+.line-items-toggle .arrow {
+    transition: transform 0.2s;
+}
+
+.line-items-toggle.expanded .arrow {
+    transform: rotate(180deg);
+}
+
+.line-items-table-container {
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.line-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.line-items-table th {
+    background-color: #f5f5f5;
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+}
+
+.line-items-table td {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.line-items-table input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.line-items-table input:focus {
+    outline: none;
+    border-color: #0078d4;
+}
+
+.import-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.import-button:hover {
+    background-color: #218838;
+}
+
+.import-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.success-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.success-modal-content {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.success-modal h3 {
+    color: #28a745;
+    margin: 0 0 16px 0;
+}
+
+.success-modal p {
+    margin: 0 0 16px 0;
+    color: #666;
+}
+
+.success-modal button {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+.success-modal button:hover {
+    background-color: #106ebe;
+}
+

@@ -3,17 +3,16 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from core.integrations.epicor.epicor_utils import epicor_api_request
+from core.integrations.epicor.client import epicor_api_request
 from core.utils.secret_manager import get_secret
 
 
 def build_epicor_invoice_url(vendor_num, invoice_num):
     server = get_secret('EPICOR_SERVER')
-    instance = get_secret('EPICOR_INSTANCE')
     channel_id = get_secret('EPICOR_CHANNEL_ID')
     
     url = (
-        f"https://{server}/{instance}/Apps/ERP/Home/#/view/APGO1070/Erp.UI.APInvoiceTracker"
+        f"https://{server}/KineticLive/Apps/ERP/Home/#/view/APGO1070/Erp.UI.APInvoiceTracker"
         f"?channelid={channel_id}"
         f"&layerVersion=0"
         f"&baseAppVersion=0"
@@ -35,7 +34,7 @@ def get_invoice_from_epicor(invoice_number, company='SAINC'):
         '$filter': f"APInvHed_InvoiceNum eq '{invoice_number}'"
     }
     
-    response = epicor_api_request(endpoint, 'GET', company, params=params)
+    response = epicor_api_request(endpoint, 'GET', company, params=params, instance_override='KineticLive')
     
     if response and response.status_code == 200:
         try:

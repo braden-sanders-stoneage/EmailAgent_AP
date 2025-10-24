@@ -68,7 +68,7 @@ def log_attachments_process_start(total_count: int):
     _write_log(f"ATTACHMENTS: Processing {total_count} attachment(s)")
 
 
-def log_attachments_completed(images: int, msgs: int, skipped: int):
-    _write_log(f"ATTACHMENTS: Completed. images={images} msgs={msgs} skipped={skipped}")
+def log_attachments_completed(images: int, pdfs: int, msgs: int, skipped: int):
+    _write_log(f"ATTACHMENTS: Completed. images={images} pdfs={pdfs} msgs={msgs} skipped={skipped}")
 
 

@@ -4,9 +4,10 @@ import json
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 from core.utils.monitor_system import start_monitor
+from core.integrations.epicor.invoice_creator import create_invoice_in_epicor
 
 app = Flask(__name__)
 CORS(app)
@@ -51,6 +52,53 @@ def taskpane():
 @app.route('/commands')
 def commands():
     return render_template('commands.html')
+
+
+@app.route('/api/invoice/import', methods=['POST'])
+def import_invoice():
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        required_fields = ['vendor_id', 'invoice_num', 'invoice_date', 'invoice_total']
+        missing_fields = [field for field in required_fields if field not in data]
+        
+        if missing_fields:
+            return jsonify({
+                "error": f"Missing required fields: {', '.join(missing_fields)}"
+            }), 400
+        
+        invoice_data = {
+            'company': data.get('company', 'SAINC'),
+            'vendor_id': data.get('vendor_id'),
+            'invoice_num': data.get('invoice_num'),
+            'invoice_date': data.get('invoice_date'),
+            'invoice_total': data.get('invoice_total'),
+            'line_items': data.get('line_items', [])
+        }
+        
+        result = create_invoice_in_epicor(invoice_data)
+        
+        if result.get('success'):
+            return jsonify({
+                "success": True,
+                "epicor_url": result.get('epicor_url'),
+                "invoice_num": result.get('invoice_num'),
+                "vendor_num": result.get('vendor_num')
+            }), 200
+        else:
+            return jsonify({
+                "success": False,
+                "error": result.get('error', 'Unknown error occurred')
+            }), 400
+    
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
 
 if __name__ == '__main__':

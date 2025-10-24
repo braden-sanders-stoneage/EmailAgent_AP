@@ -26,6 +26,65 @@
                 <p id="categoryReason" class="reason"></p>
             </div>
             
+            <div id="invoiceDataSection" style="display: none;">
+                <h3>Invoice Import</h3>
+                
+                <div id="invoiceFields">
+                    <div class="invoice-field">
+                        <label>Vendor:</label>
+                        <select id="vendorSelect"></select>
+                        <span id="vendorConfidence" class="confidence-indicator"></span>
+                    </div>
+                    
+                    <div class="invoice-field">
+                        <label>Invoice #:</label>
+                        <input type="text" id="invoiceNumber">
+                        <span id="invoiceNumberConfidence" class="confidence-indicator"></span>
+                    </div>
+                    
+                    <div class="invoice-field">
+                        <label>Date:</label>
+                        <input type="text" id="invoiceDate" placeholder="YYYY-MM-DD">
+                        <span id="invoiceDateConfidence" class="confidence-indicator"></span>
+                    </div>
+                    
+                    <div class="invoice-field">
+                        <label>Total:</label>
+                        <input type="number" id="invoiceTotal" step="0.01">
+                        <span id="invoiceTotalConfidence" class="confidence-indicator"></span>
+                    </div>
+                </div>
+                
+                <div class="line-items-header">
+                    <button class="line-items-toggle" onclick="toggleLineItems()">
+                        <span>View/Edit Line Items (<span id="lineItemCount">0</span>)</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                </div>
+                
+                <div id="lineItemsExpanded" style="display: none;">
+                    <div class="line-items-table-container">
+                        <table class="line-items-table" id="lineItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Part #</th>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lineItemsBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <button class="import-button" id="importToEpicorBtn" onclick="importToEpicor()">
+                    Import to Epicor
+                </button>
+            </div>
+            
             <div id="invoiceSection" style="display: none;">
                 <h3>Invoices Detected</h3>
                 <div id="invoiceList"></div>
